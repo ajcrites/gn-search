@@ -7,7 +7,11 @@
 
 class GnSearchShortcode {
 
-   private $errors = new WP_Error;
+   private $errors;
+
+   public function __construct() {
+      $this->errors = new WP_Error;
+   }
 
    public function gnsearch_shortcode_func($atts) {
       //I hate to use `extract`, but this seems to be the standard
