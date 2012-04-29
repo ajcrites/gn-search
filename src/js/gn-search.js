@@ -10,6 +10,10 @@
        * @var Object container for the results (not the input itself)
        */
       $input.container = $("#" + $input.attr('data-container'));
+      //Nothing to put results in, so don't show the input either
+      if (!$input.container || !$input.container.length) {
+         return;
+      }
 
       /**
        * @var int maximum number of results to display at once
@@ -34,15 +38,10 @@
        */
       $input.jqxhr = {abort: function () { $.noop(); }};
 
-      //Nothing to put results in, so don't show the input either
-      if (!$input.container || !$input.container.length) {
-         return;
-      }
-
       $input.show();
 
       $input.on('keyup', function () {
-         //Cancel the last request so as not to give the server a little break
+         //Cancel the last request to give the server a little break
          $input.jqxhr.abort();
 
          if ($input.val().length >= $input.attr('data-chars')) {
