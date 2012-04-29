@@ -7,10 +7,18 @@
  */
 
 class GnSearchAjax {
+   /**
+    * @var WP_Error container for server-side errors
+    */
    private $errors;
 
    public function __construct() {
       $this->errors = new WP_Error;
+   }
+
+   public static function gn_search_ajax() {
+      $gns = new self;
+      $gns->run();
    }
 
    /**
@@ -19,11 +27,6 @@ class GnSearchAjax {
     * with the results of the search.
     * If it fails on this end, it response with an error message
     */
-   public static function gn_search_ajax() {
-      $gns = new self;
-      $gns->run();
-   }
-
    public function run() {
       if (!isset($_REQUEST['term']) || !$_REQUEST['term']) {
          $this->errors->add('no_term', __METHOD__ . ': no search term was provided');
@@ -113,6 +116,7 @@ class GnSearchAjax {
 
          $results = array();
          foreach ($dom->channel->item as $elem) {
+            //Cast the xml elements to strings to get their values
             $results[] = array(
                'title' => "$elem->title"
                , 'url' => "$elem->link"
