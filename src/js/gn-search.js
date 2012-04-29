@@ -38,9 +38,9 @@
        */
       $input.jqxhr = {abort: function () { $.noop(); }};
 
-      $input.show();
-
-      $input.on('keyup', function () {
+      //Now that everything is set up, display the input element and attach the method necessary
+      //to display results when typing
+      $input.show().on('keyup', function () {
          //Cancel the last request to give the server a little break
          $input.jqxhr.abort();
 
