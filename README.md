@@ -38,3 +38,7 @@ the following options as attributes of the shortcode:
 * `limit` -- Total number of allowed results (default: 0 -- unlimited)
 
 **NOTE:** The input has an `id` attribute of `gn-search`.
+
+## License
+
+This code is in the public domain
