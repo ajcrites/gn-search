@@ -18,23 +18,32 @@ class GnSearchShortcode {
 
    private $errors;
 
+   /**
+    * Initialize all necessary WP settings to work with ajax and the required JavaScript/styles
+    */
    public static function init() {
       wp_enqueue_script('my-ajax-request', plugins_url('gn-search/js/gn-search.js'), array('jquery'));
       wp_localize_script('my-ajax-request', 'GnSearch', array('ajaxurl' => admin_url('admin-ajax.php')));
 
       add_action('wp_ajax_nopriv_gnsearch', array('GnSearchAjax', 'gn_search_ajax'));
       add_action('wp_ajax_gnsearch', array('GnSearchAjax', 'gn_search_ajax'));
+
+      wp_register_style('gn-search.css', plugins_url('gn-search/css/gn-search.css'));
+      wp_enqueue_style('gn-search.css');
    }
 
    public function __construct() {
       $this->errors = new WP_Error;
    }
 
-   public function gnsearch_shortcode_func($atts) {
+   public static function gnsearch_shortcode_func($atts) {
       $self = new self;
       return $self->run($atts);
    }
 
+   /**
+    * Create the shortcode based on provided attributes
+    */
    public function run($atts) {
       //I hate to use `extract`, but this seems to be the standard
       extract( shortcode_atts( array(
@@ -84,8 +93,6 @@ HTML;
    }
 }
 
-add_shortcode('google-news', array('GnSearchShortcode', 'gnsearch_shortcode_func'));
 add_action('init', array('GnSearchShortcode', 'init'));
-wp_register_style('gn-search.css', plugins_url('gn-search/css/gn-search.css'));
-wp_enqueue_style('gn-search.css');
+add_shortcode('google-news', array('GnSearchShortcode', 'gnsearch_shortcode_func'));
 ?>

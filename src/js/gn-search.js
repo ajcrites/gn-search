@@ -101,7 +101,7 @@
             //IE really hates 'class' not used in its intended context
             var clss = 'gn-search-result';
 
-            if (index + 1 > $input.results) {
+            if ($input.results != 0 && index + 1 > $input.results) {
                clss = 'gn-search-result-extra';
             }
             $input.container.append(
