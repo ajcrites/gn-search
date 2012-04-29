@@ -94,7 +94,7 @@ HTML;
       }
 
       if (!is_int($value) && !ctype_digit($value) || $value < $max) {
-         $this->errors->add('invalid_results', __(__METHOD__ . ': you must specify 0 or a digit for results to display'));
+         $this->errors->add('invalid_int', __(__METHOD__ . ': you must specify a digit greather than or equal to ' . $max));
          return $default;
       }
       return $value;
