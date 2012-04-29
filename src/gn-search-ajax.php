@@ -1,4 +1,11 @@
 <?php
+/**
+ * The purpose of this file is to an asynchronous search on Google News for the provided term
+ * and parse the results into usable JSON
+ * @author Andrew Crites <explosion-pills@aysites.com>
+ * @package gn-search
+ */
+
 class GnSearchAjax {
    private $errors;
 
