@@ -15,7 +15,9 @@ License: Unlicense
 require_once dirname(__FILE__) . '/gn-search-ajax.php';
 
 class GnSearchShortcode {
-
+   /**
+    * @var WP_Error container for errors in setup
+    */
    private $errors;
 
    /**
@@ -43,6 +45,8 @@ class GnSearchShortcode {
 
    /**
     * Create the shortcode based on provided attributes
+    * @param array WP attributes
+    * @return string html necessary for search
     */
    public function run($atts) {
       //I hate to use `extract`, but this seems to be the standard
@@ -54,20 +58,9 @@ class GnSearchShortcode {
          'limit' => 0
       ), $atts ) );
 
-      if (!is_int($chars) && !ctype_digit($chars) || $chars < 1) {
-         $this->errors->add('invalid_chars', __(__METHOD__ . ': you must specify at least 1 character to respond to'));
-         $chars = 3;
-      }
-
-      if (!is_int($results) && !ctype_digit($results) || $results < 0) {
-         $this->errors->add('invalid_results', __(__METHOD__ . ': you must specify 0 or a digit for results to display'));
-         $results = 0;
-      }
-
-      if (!is_int($limit) && !ctype_digit($limit) || $limit < 0) {
-         $this->errors->add('invalid_limit', __(__METHOD__ . ': you must specify 0 or a digit for limit on results'));
-         $limit = 0;
-      }
+      $chars = $this->valid_int($chars, 1, 3);
+      $results = $this->valid_int($results, 0);
+      $limit = $this->valid_int($limit, 0);
 
       $html = <<<HTML
          <input type="text" placeholder="$placeholder" id="gn-search" data-chars="$chars" data-container="$id"
@@ -86,6 +79,25 @@ HTML;
          return '';
       }
       return $html;
+   }
+
+   /**
+    * Validate the given input by confirming it is a usable digit and greater than the minimum
+    * @var mixed parameter received from short code
+    * @var int minimum value of this parameter
+    * @var int the default value if the provided value is invalid (max, if none is provided)
+    * @return int
+    */
+   public function valid_int($value, $max, $default = null) {
+      if ($default === null) {
+         $default = $max;
+      }
+
+      if (!is_int($value) && !ctype_digit($value) || $value < $max) {
+         $this->errors->add('invalid_results', __(__METHOD__ . ': you must specify 0 or a digit for results to display'));
+         return $default;
+      }
+      return $value;
    }
 
    public function get_errors() {
