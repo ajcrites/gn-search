@@ -84,7 +84,7 @@ HTML;
    }
 }
 
-add_shortcode('gn-search', array('GnSearchShortcode', 'gnsearch_shortcode_func'));
+add_shortcode('google-news', array('GnSearchShortcode', 'gnsearch_shortcode_func'));
 add_action('init', array('GnSearchShortcode', 'init'));
 wp_register_style('gn-search.css', plugins_url('gn-search/css/gn-search.css'));
 wp_enqueue_style('gn-search.css');
