@@ -12,9 +12,20 @@ Author: Andrew Crites
 License: Unlicense
 */
 
+require_once dirname(__FILE__) . '/gn-search-ajax.php';
+
 class GnSearchShortcode {
 
    private $errors;
+
+   public static function init() {
+      //TODO use plugin_content_dir(__FILE__) after I stop my weird testing method for this
+      wp_enqueue_script('my-ajax-request', '/wp-content/plugins/gn-search/js/gn-search.js', array('jquery'));
+      wp_localize_script('my-ajax-request', 'GnSearch', array('ajaxurl' => admin_url('admin-ajax.php')));
+
+      add_action('wp_ajax_nopriv_gnsearch', array('GnSearchAjax', 'gn_search_ajax'));
+      add_action('wp_ajax_gnsearch', array('GnSearchAjax', 'gn_search_ajax'));
+   }
 
    public function __construct() {
       $this->errors = new WP_Error;
@@ -55,7 +66,5 @@ HTML;
 }
 
 add_shortcode('gn-search', array('GnSearchShortcode', 'gnsearch_shortcode_func'));
-//TODO use plugin_content_dir(__FILE__) after I stop my weird testing method for this
-wp_enqueue_script('my-ajax-request', '/wp-content/plugins/gn-search/js/gn-search.js', array('jquery'));
-wp_localize_script('my-ajax-request', 'GnSearch', array('ajaxurl' => admin_url('gn-search-admin.php')));
+add_action('init', array('GnSearchShortcode', 'init'));
 ?>

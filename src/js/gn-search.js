@@ -40,7 +40,7 @@
          //Cancel the last request so as not to give the server a little break
          $input.jqxhr.abort();
 
-         if ($input.val().length > $input.attr('data-chars')) {
+         if ($input.val().length >= $input.attr('data-chars')) {
             $input.initSearch($input.val());
          }
       });
@@ -51,7 +51,7 @@
             .after($input.throbber)
          ;
 
-         $input.jqxhr = $.getJSON(GnSearch.ajaxurl, {term: term})
+         $input.jqxhr = $.getJSON(GnSearch.ajaxurl, {term: term, action: 'gnsearch'})
             .done($input.success)
             .fail($input.failure)
             .always($input.always)

@@ -19,14 +19,18 @@ class GnSearchAjax {
     * with the results of the search.
     * If it fails on this end, it response with an error message
     */
-   public function gn_search_ajax() {
+   public static function gn_search_ajax() {
+      $gns = new self;
+      $gns->run();
+   }
 
+   public function run() {
       if (!isset($_REQUEST['term']) || !$_REQUEST['term']) {
          $this->errors->add('no_term', __METHOD__ . ': no search term was provided');
          $this->error('Please provide a search term');
       }
 
-      $xml = $this->retrieve("http://news.google.com/news?q=$_REQUEST[term]&output=rss");
+      $xml = $this->retrieve('http://news.google.com/news?q=' . urlencode($_REQUEST['term']) . '&output=rss');
 
       $this->parse_response($xml);
    }
@@ -105,8 +109,8 @@ class GnSearchAjax {
          $results = array();
          foreach ($dom->channel->item as $elem) {
             $results[] = array(
-               'title' => $elem->title
-               , 'url' => $elem->link
+               'title' => "$elem->title"
+               , 'url' => "$elem->link"
             );
          }
          $this->success($results);
@@ -118,6 +122,4 @@ class GnSearchAjax {
       }
    }
 }
-add_action('wp_ajax_nopriv_gnsearch', array('GnSearchAjax', 'gn_search_ajax'));
-add_action('wp_ajax_gnsearch', array('GnSearchAjax', 'gn_search_ajax'));
 ?>
