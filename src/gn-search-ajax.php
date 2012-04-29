@@ -118,6 +118,6 @@ class GnSearchAjax {
       }
    }
 }
-do_action('wp_ajax_nopriv_gnsearch', array('GnSearchAjax', 'gn_search_ajax'));
-do_action('wp_ajax_gnsearch', array('GnSearchAjax', 'gn_search_ajax'));
+add_action('wp_ajax_nopriv_gnsearch', array('GnSearchAjax', 'gn_search_ajax'));
+add_action('wp_ajax_gnsearch', array('GnSearchAjax', 'gn_search_ajax'));
 ?>

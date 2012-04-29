@@ -4,6 +4,13 @@
  * @author Andrew Crites <explosion-pills@aysites.com>
  * @package gn-search
  */
+/*
+Plugin Name: Google News Search
+Description: A shortcode that creates an input that response with an asynchronous search of Google News
+Version: 0.0
+Author: Andrew Crites
+License: Unlicense
+*/
 
 class GnSearchShortcode {
 
@@ -48,6 +55,7 @@ HTML;
 }
 
 add_shortcode('gn-search', array('GnSearchShortcode', 'gnsearch_shortcode_func'));
-wp_enqueue_scripot('my-ajax-request', plugin_dir_url(__FILE__) . 'gn-search.js', array('jquery'));
-wp_localize_script('my-ajax-request', 'GnSearch', array('ajaxurl' => admin_url('gn-search-ajax.php')));
+//TODO use plugin_content_dir(__FILE__) after I stop my weird testing method for this
+wp_enqueue_script('my-ajax-request', '/wp-content/plugins/gn-search/js/gn-search.js', array('jquery'));
+wp_localize_script('my-ajax-request', 'GnSearch', array('ajaxurl' => admin_url('gn-search-admin.php')));
 ?>

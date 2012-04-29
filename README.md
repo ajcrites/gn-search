@@ -13,7 +13,7 @@ of at least three characters long asynchronously and loads them into an element 
 * PHP 5.3.6 (untested on other versions, but should work all 5.2 to 5.4 versions)
  * PHP `curl` **OR** `fopen` wrappers enabled
 * Wordpress 3.3.2 (untested on other versions)
-* jQuery 1.7.2
+* jQuery 1.7.1
 
 ### Instructions
 
