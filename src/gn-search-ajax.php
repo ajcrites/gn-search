@@ -103,7 +103,7 @@ class GnSearchAjax {
             $this->error('There were no results for your search');
          }
          if (!$dom->channel->item) {
-            $this->success('There is no news for your search right now');
+            $this->error('There is no news about ' . $_REQUEST['term'] . ' right now');
          }
 
          $results = array();

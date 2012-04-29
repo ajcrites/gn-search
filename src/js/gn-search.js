@@ -91,6 +91,7 @@
        * Update the container based on results
        */
       $input.displayResults = function (news) {
+         //TODO if the results are too long for the container, it would be nice to cut them off with a ...
          $.each(news, function () {
             $input.container.append(
                $("<a>", {href: this.url, text: this.title, 'class': 'gn-search-result'})

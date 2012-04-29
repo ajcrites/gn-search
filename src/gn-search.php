@@ -31,6 +31,11 @@ class GnSearchShortcode {
    }
 
    public function gnsearch_shortcode_func($atts) {
+      $self = new self;
+      return $self->run($atts);
+   }
+
+   public function run($atts) {
       //I hate to use `extract`, but this seems to be the standard
       extract( shortcode_atts( array(
          'chars' => 3,
@@ -38,7 +43,7 @@ class GnSearchShortcode {
          'id' => 'gn-search-container',
       ), $atts ) );
 
-      if (!is_int($chars) || $chars < 1) {
+      if (!is_int($chars) && !ctype_digit($chars) || $chars < 1) {
          $this->errors->add('invalid_chars', __(__METHOD__ . ': you must specify at least 1 character to respond to'));
       }
 

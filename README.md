@@ -17,11 +17,7 @@ of at least three characters long asynchronously and loads them into an element 
 
 ### Instructions
 
-1. You may use the `util/deploy` shell script if you are running on a system with `bash`.
-
-   **OR**
-
-   Manually move the contents of the src directory to the WordPress `plugins` folder.
+1. Manually move the contents of the `src` directory to the WordPress `plugins/gn-search` directory.
 1. Active the plugin
 1. Configure the plugin via the Admin panel
 1. ????
