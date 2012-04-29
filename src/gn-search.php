@@ -41,14 +41,29 @@ class GnSearchShortcode {
          'chars' => 3,
          'placeholder' => '',
          'id' => 'gn-search-container',
+         'results' => 0,
+         'limit' => 0
       ), $atts ) );
 
       if (!is_int($chars) && !ctype_digit($chars) || $chars < 1) {
          $this->errors->add('invalid_chars', __(__METHOD__ . ': you must specify at least 1 character to respond to'));
+         $chars = 3;
+      }
+
+      if (!is_int($results) && !ctype_digit($results) || $results < 0) {
+         $this->errors->add('invalid_results', __(__METHOD__ . ': you must specify 0 or a digit for results to display'));
+         $results = 0;
+      }
+
+      if (!is_int($limit) && !ctype_digit($limit) || $limit < 0) {
+         $this->errors->add('invalid_limit', __(__METHOD__ . ': you must specify 0 or a digit for limit on results'));
+         $limit = 0;
       }
 
       $html = <<<HTML
-         <input type="text" placeholder="$placeholder" id="gn-search" data-chars="$chars" data-container="$id" />
+         <input type="text" placeholder="$placeholder" id="gn-search" data-chars="$chars" data-container="$id"
+            data-limit="$limit" data-results="$results"
+         />
 HTML;
       if ($id == 'gn-search-container') {
          $html .= <<<HTML

@@ -12,6 +12,11 @@
       $input.container = $("#" + $input.attr('data-container'));
 
       /**
+       * @var int maximum number of results to display at once
+       */
+      $input.results = $input.attr('data-results');
+
+      /**
        * @var Object throbber image; this not only makes it easy to reference, but also preloads it
        * TODO do not use a specific path
        */
@@ -52,7 +57,7 @@
             .after($input.throbber)
          ;
 
-         $input.jqxhr = $.getJSON(GnSearch.ajaxurl, {term: term, action: 'gnsearch'})
+         $input.jqxhr = $.getJSON(GnSearch.ajaxurl, {term: term, action: 'gnsearch', limit: $input.attr('data-limit')})
             .done($input.success)
             .fail($input.failure)
             .always($input.always)
@@ -92,11 +97,27 @@
        */
       $input.displayResults = function (news) {
          //TODO if the results are too long for the container, it would be nice to cut them off with a ...
-         $.each(news, function () {
+         $.each(news, function (index) {
+            //IE really hates 'class' not used in its intended context
+            var clss = 'gn-search-result';
+
+            if (index + 1 > $input.results) {
+               clss = 'gn-search-result-extra';
+            }
             $input.container.append(
-               $("<a>", {href: this.url, text: this.title, 'class': 'gn-search-result'})
+               $("<a>", {href: this.url, text: this.title, 'class': clss})
             );
          });
+         var $extralinks = $('.gn-search-result-extra', $input.container);
+         if ($extralinks.length) {
+            $("<div>", {text: 'Show More...', 'class': 'gn-show-extra'})
+               .on('click', function () {
+                  $(this).hide();
+                  $extralinks.css('display', 'block');
+               })
+               .appendTo($input.container)
+            ;
+         }
          $input.container.show();
       };
 

@@ -106,12 +106,21 @@ class GnSearchAjax {
             $this->error('There is no news about ' . $_REQUEST['term'] . ' right now');
          }
 
+         $limit = 0;
+         if (isset($_REQUEST['limit']) && ctype_digit($_REQUEST['limit'])) {
+            $limit = $_REQUEST['limit'];
+         }
+
          $results = array();
          foreach ($dom->channel->item as $elem) {
             $results[] = array(
                'title' => "$elem->title"
                , 'url' => "$elem->link"
             );
+            if ($limit == 1) {
+               break;
+            }
+            $limit--;
          }
          $this->success($results);
       }

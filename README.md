@@ -33,5 +33,8 @@ the following options as attributes of the shortcode:
 * `id` -- ID of the element to load results into (default: gn-search-container)
  * **WARNING:** If provided, the element that ordinarily has the results is omitted from the response.  You must
    provide your own
+* `results` -- Number of results to be displayed (any amount over this will display a "show more" link)
+   (default: 0 -- unlimited)
+* `limit` -- Total number of allowed results (default: 0 -- unlimited)
 
 **NOTE:** The input has an `id` attribute of `gn-search`.
