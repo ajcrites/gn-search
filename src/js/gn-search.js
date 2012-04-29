@@ -48,6 +48,7 @@
       $input.initSearch = function (term) {
          $input.container
             .hide()
+            .empty()
             .after($input.throbber)
          ;
 
@@ -58,8 +59,23 @@
          ;
       };
 
+      /**#@+
+       * Handle Ajax results
+       */
       $input.success = function (json) {
-         alert(json);
+         if (!json.status) {
+            $input.failure();
+         }
+         else if (json.status == 'success') {
+            $input.displayResults(json.response);
+         }
+         else if (json.status == 'error') {
+            $input.displayError(json.msg);
+         }
+         //Unknown response, so display it as a normal error
+         else {
+            $input.failure();
+         }
       };
 
       $input.failure = function () {
@@ -69,6 +85,24 @@
       $input.always = function () {
          $input.throbber.detach();
       }
+      /**#@-*/
+
+      /**#@+
+       * Update the container based on results
+       */
+      $input.displayResults = function (news) {
+         $.each(news, function () {
+            $input.container.append(
+               $("<a>", {href: this.url, text: this.title, 'class': 'gn-search-result'})
+            );
+         });
+         $input.container.show();
+      };
+
+      $input.displayError = function (err) {
+         $input.container.show().html('<span class="gn-search-error">' + err + '</span>');
+      }
+      /**#@-*/
    };
 
    $(function () {
